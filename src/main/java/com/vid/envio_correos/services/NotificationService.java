@@ -27,9 +27,9 @@ public class NotificationService {
     //@Scheduled(cron = "0 */2 * * * *")
     public void notifyDueInvoices() {
 
-        System.out.println(LocalDate.now().plusDays(2));
+        System.out.println(LocalDate.now().plusDays(30));
 
-        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().plusDays(2));
+        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().plusDays(30));
 
 
         if (!empleadoList.isEmpty()) {
