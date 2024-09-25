@@ -38,4 +38,7 @@ public class Empleado {
 
     @Column(name = "emp_jefe_codigo")
     private String jefeCodigo;
+
+    @Column(name = "emp_sociedad")
+    private String empSociedad;
 }

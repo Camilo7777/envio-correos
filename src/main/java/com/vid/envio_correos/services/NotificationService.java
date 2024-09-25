@@ -44,7 +44,7 @@ public class NotificationService {
 
         System.out.println(LocalDate.now());
 
-        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now());
+        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().minusDays(1));
 
 
         if (!empleadoList.isEmpty()) {
@@ -65,6 +65,8 @@ public class NotificationService {
                     ByteArrayOutputStream pdfContent = generatePdf("src/main/resources/prueba.pdf", nameEmpleado, date);
 
                     System.out.println(text);
+
+                    System.out.println(empleado.getEmpSociedad());
 
                     sendEmailWithAttachment(emailJefe, subject, text, pdfContent, "Contrato_" + nameEmpleado + ".pdf");
 
@@ -111,8 +113,17 @@ public class NotificationService {
 
             // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
             canvas.moveText(100, 400); // (x, y) en puntos
+            canvas.showText("Cargo: " + expiryDate);
+            canvas.endText();
+
+            // Reiniciar la posición del texto para el siguiente texto
+            canvas.beginText();
+
+            // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
+            canvas.moveText(100, 400); // (x, y) en puntos
             canvas.showText("Fecha de vencimiento: " + expiryDate);
             canvas.endText();
+
 
             pdfDoc.close();
         } catch (Exception e) {
