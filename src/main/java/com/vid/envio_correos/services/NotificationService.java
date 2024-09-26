@@ -44,7 +44,7 @@ public class NotificationService {
 
         System.out.println(LocalDate.now());
 
-        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().minusDays(1));
+        List<Empleado> empleadoList = empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().minusDays(2));
 
 
         if (!empleadoList.isEmpty()) {
@@ -56,13 +56,14 @@ public class NotificationService {
                 if (jefe != null) {
                     String nameJefe = jefe.getNombresJefe() + " " + jefe.getApellidosJefe();
                     String emailJefe = jefe.getCorreoJefe();
-                    String nameEmpleado = empleado.getNombre() + " " + empleado.getApellido1();
+                    String nameEmpleado = empleado.getNombre() + " " + empleado.getApellido1() + " " + empleado.getApellido2();
                     LocalDate date = empleado.getFechaFinContrato();
 
                     String subject = "Notificación de contratos por vencer";
                     String text = "Señor " + nameJefe + ", el contrato de: " + nameEmpleado + " vence el " + date;
 
-                    ByteArrayOutputStream pdfContent = generatePdf("src/main/resources/prueba.pdf", nameEmpleado, date);
+                    String pdfRute = empleado.getEmpSociedad().equals("1")  ? "src/main/resources/PdfCardio.pdf" : "src/main/resources/PdfFundacion.pdf";
+                    ByteArrayOutputStream pdfContent = generatePdf(pdfRute, nameEmpleado, date);
 
                     System.out.println(text);
 
@@ -90,38 +91,38 @@ public class NotificationService {
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 
             canvas.beginText();
-            canvas.setFontAndSize(font, 12);
+            canvas.setFontAndSize(font, 10);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy");
             String formattedDate = LocalDate.now().format(formatter);
 
             // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
-            canvas.moveText(100, 700); // (x, y) en puntos
-            canvas.showText(" Fecha actual: Medellín, " + formattedDate);
+            canvas.moveText(85, 623); // (x, y) en puntos
+            canvas.showText(" Medellín, " + formattedDate);
             canvas.endText(); // Termina el primer bloque de texto
 
             // Reiniciar la posición del texto para el siguiente texto
             canvas.beginText();
 
             // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
-            canvas.moveText(100, 500); // (x, y) en puntos
-            canvas.showText("Usuario: " + name);
+            canvas.moveText(85, 547); // (x, y) en puntos
+            canvas.showText(name);
             canvas.endText();
 
             // Reiniciar la posición del texto para el siguiente texto
             canvas.beginText();
 
             // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
-            canvas.moveText(100, 400); // (x, y) en puntos
-            canvas.showText("Cargo: " + expiryDate);
+            canvas.moveText(85, 530); // (x, y) en puntos
+            canvas.showText("Cargo: " );
             canvas.endText();
 
             // Reiniciar la posición del texto para el siguiente texto
             canvas.beginText();
 
             // Establecer la posición del texto (ajusta las coordenadas según sea necesario)
-            canvas.moveText(100, 400); // (x, y) en puntos
-            canvas.showText("Fecha de vencimiento: " + expiryDate);
+            canvas.moveText(386, 439); // (x, y) en puntos
+            canvas.showText("Fecha: " + expiryDate);
             canvas.endText();
 
 
