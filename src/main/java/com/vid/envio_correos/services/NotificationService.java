@@ -184,4 +184,8 @@ public class NotificationService {
     public List<Empleado> filterDate(){
         return   empleadoRepository.findEmpleadoByFechaFinContrato(LocalDate.now().plusDays(1));
     }
+
+    public Jefe createJefe(Jefe jefe) {
+       return jefeRepository.save(jefe);
+    }
 }

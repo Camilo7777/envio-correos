@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/test")
+@CrossOrigin(origins = "http://localhost:4200", methods = RequestMethod.POST)
 public class NotificationTestController {
 
     @Autowired
@@ -54,9 +55,9 @@ public class NotificationTestController {
         return notificationService.findByCodJefe("43607886");
     }
 
-    @PutMapping("/update")
-    public String createBoss() {
-        notificationService.notifyDueInvoices();
-        return "Notification triggered!";
+    @PostMapping("/jefe")
+    public Jefe createJefe(@RequestBody Jefe jefe) {
+       return notificationService.createJefe(jefe);
+
     }
 }
